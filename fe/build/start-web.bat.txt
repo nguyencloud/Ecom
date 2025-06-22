@@ -1,0 +1,7 @@
+@echo off
+echo ================================================
+echo Web dang chay tai: http://localhost:3000
+echo Vui long khong dong cua so nay khi dang su dung.
+echo ================================================
+npx serve -s . --port 3000
+pause

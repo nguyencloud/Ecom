@@ -1,0 +1,134 @@
+/* ==== product.css (đã chỉnh sửa) ==== */
+
+/* Reset và nền */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Lưới chứa toàn bộ sản phẩm */
+.content-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 30px;
+  padding: 40px 60px;
+  justify-content: center;
+}
+
+/* Mỗi sản phẩm */
+.item {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease-in-out;
+}
+
+.item:hover {
+  transform: translateY(-5px);
+}
+
+/* Hình ảnh sản phẩm */
+.DPi-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Tên sản phẩm */
+.DPi-name {
+  font-weight: 700;
+  font-size: 18px;
+  padding: 10px 15px 0;
+  color: #333;
+}
+
+/* Nhãn thương hiệu */
+.DPi-label {
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0 15px 10px;
+  color: #666;
+}
+
+/* Giá */
+.DPi-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px 10px;
+  font-size: 15px;
+}
+
+.DPi-price-off {
+  color: #999;
+  text-decoration: line-through;
+}
+
+.DPi-price-on {
+  color: #e60023;
+  font-weight: bold;
+}
+
+/* Huy hiệu giảm giá */
+.sale {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: #e60023;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  z-index: 10;
+}
+
+/* Nút mua ngay */
+.DP-buynow {
+  text-align: center;
+  background-color: #307fe2;
+  border-radius: 20px;
+  margin: 15px auto 20px;
+  min-width: 100px;
+  padding: 8px 16px;
+  color: #fff;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.DP-buynow:hover {
+  background-color: #1a5dc0;
+  cursor: pointer;
+}
+
+/* Ẩn các phần không cần hiển thị */
+footer,
+.footer,
+.brand-label,
+.featured-products,
+.featured-title {
+  display: none !important;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .content-container {
+    padding: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+  }
+}
+
+/* ==== END product.css ==== */
+.footer-end {
+  display: none !important;
+}
