@@ -34,6 +34,6 @@ func Routes(router *gin.Engine) {
 	
 	router.GET("/user/view-payment", controllers.GetAllPayloads())
 	router.POST("/user/message-send", controllers.SmsSender())
-
+	userRoutes.POST("/create-order", controllers.CreateOrder())
 	// router.GET("/user/instant-buy", app.InstantBuy())
 }

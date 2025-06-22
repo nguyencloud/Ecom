@@ -412,3 +412,20 @@ func ProductUpdaterAdmin() gin.HandlerFunc {
 		return
 	}
 }
+func CreateOrder() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        var order models.Order
+        if err := c.BindJSON(&order); err != nil {
+            c.JSON(http.StatusBadRequest, gin.H{"status": "Failed", "msg": err.Error()})
+            return
+        }
+        ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+        defer cancel()
+        _, err := OrderCollection.InsertOne(ctx, order)
+        if err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"status": "Failed", "msg": "Không thể tạo đơn hàng"})
+            return
+        }
+        c.JSON(http.StatusOK, gin.H{"status": "OK", "msg": "Đặt hàng thành công"})
+    }
+}

@@ -3,11 +3,12 @@ import axios from "axios";
 // import { useState } from "react";
 import {Button} from 'react-bootstrap';
 import {Navigate} from "react-router-dom";
-
+import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 function CheckoutScreen() {
 
   const cart = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
-  
+  const [success, setSuccess] = useState(false);
 
   const toNum=(str)=>{
     return Number(str.split(' ')[0].replace(/\./g,''))
@@ -55,24 +56,31 @@ function CheckoutScreen() {
   
   
   const handlePay = async (e) => {
-    e.preventDefault();
-    try {
-      
-      const payment = await axios.post("http://localhost:8000/user/payment", {
-        amount: sum,
-        orderId: `DONHANG${Math.floor(Math.random() * 100000)}`,
-        orderInfo: "DON HANG BKROBOTIC",
-      });
-  
-      if (payment.data.code === 200) {
-        console.log(payment.data.data);
-        window.location.replace(payment.data.data);
-      }
-    } catch (error) {
-      console.log("Xay ra loi");
-      console.log(error);
-    }
-  };
+  e.preventDefault();
+  const fullname = document.querySelector('input[name="fullname"]').value;
+  const email = document.querySelector('input[name="email"]').value;
+  const phone = document.querySelector('input[name="phone"]').value;
+  const address = document.querySelector('input[name="address"]').value;
+  const cart = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
+
+  try {
+    await axios.post("http://localhost:8000/user/create-order", {
+      fullname,
+      email,
+      phone,
+      address,
+      cart,
+      paymentMethod: "COD"
+    });
+    toast("Mua hàng thành công!");
+    setSuccess(true);
+    localStorage.setItem("cart", JSON.stringify([]));
+    window.dispatchEvent(new Event("storage"));
+  } catch (error) {
+    toast("Có lỗi xảy ra khi đặt hàng!");
+    console.log(error);
+  }
+};
   return (
     <div className="container">
       <div className="form">
@@ -142,37 +150,7 @@ function CheckoutScreen() {
             <input type="radio" id="COD" name="pay-method" value="COD" />
           </div>
 
-          <div className="radio-item">
-            <label id="bank">
-              <img
-                alt=""
-                src="https://cdn-icons-png.flaticon.com/512/5720/5720434.png"
-              />
-              Chuyển khoản qua ngân hàng
-            </label>
-            <input type="radio" id="bank" name="pay-method" value="bank" />
-          </div>
-          <div className="radio-item">
-            <label id="momo">
-              <img
-                alt=""
-                src="https://cdn-icons-png.flaticon.com/512/5720/5720434.png"
-              />
-              Ví momo
-            </label>
-            <input type="radio" id="momo" name="pay-method" value="momo" />
-          </div>
-          <div className="radio-item">
-            <label id="zalo">
-              <img
-                alt=""
-                src="https://cdn-icons-png.flaticon.com/512/5720/5720434.png"
-              />
-              Ví zalopay
-            </label>
-            <input type="radio" id="zalo" name="pay-method" value="zalo" />
-          </div>
-
+         
           <div className="separation"></div>
 
           <div className="end-form">
@@ -200,7 +178,11 @@ function CheckoutScreen() {
         <Button variant="success"  onClick={()=><Navigate to='/cart' />}> Về giỏ hàng</Button>
         <Button variant="primary" onClick={handlePay} >Thanh toán</Button>
         </div>
-        
+          {success && (
+          <div style={{ color: "green", marginTop: 20, fontWeight: "bold", textAlign: "center" }}>
+            Mua hàng thành công!
+          </div>
+        )}
               
       </div>
     </div>
